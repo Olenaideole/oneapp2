@@ -266,10 +266,6 @@ export default function QuizPage() {
   const [submitError, setSubmitError] = useState("")
   const [reportData, setReportData] = useState<{ estimatedIncome: number; badge: string } | null>(null)
   const [isCreatingSession, setIsCreatingSession] = useState(false)
-  const [stripeUrl, setStripeUrl] = useState<string | null>(null)
-  const [showPaymentInstructions, setShowPaymentInstructions] = useState(false)
-  const [copied, setCopied] = useState(false)
-
   const totalQuestions = quizBlocks.reduce((sum, block) => sum + block.questions.length, 0)
   const answeredQuestions = Object.keys(answers).length
   const progress = (answeredQuestions / totalQuestions) * 100
@@ -405,43 +401,18 @@ export default function QuizPage() {
         throw new Error(data.error || "Failed to create checkout session")
       }
 
-      if (data.developmentMode) {
-        // Show development mode message
-        setShowPaymentInstructions(true)
-        return
-      }
-
       if (data.url) {
-        console.log("✅ Stripe session created:", data.url)
-        setStripeUrl(data.url)
-        setShowPaymentInstructions(true)
+        console.log("✅ Stripe session created, redirecting:", data.url)
+        window.location.href = data.url
       } else {
-        throw new Error("No checkout URL received from server")
+        // Fallback for development mode or if URL is missing
+        throw new Error(data.message || "No checkout URL received from server.")
       }
     } catch (error) {
       console.error("❌ Failed to create Stripe session:", error)
       alert(`Payment Error: ${error instanceof Error ? error.message : "Please try again"}`)
     } finally {
       setIsCreatingSession(false)
-    }
-  }
-
-  const copyToClipboard = async (text: string) => {
-    try {
-      await navigator.clipboard.writeText(text)
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2000)
-    } catch (error) {
-      console.error("Failed to copy:", error)
-      // Fallback for older browsers
-      const textArea = document.createElement("textarea")
-      textArea.value = text
-      document.body.appendChild(textArea)
-      textArea.select()
-      document.execCommand("copy")
-      document.body.removeChild(textArea)
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2000)
     }
   }
 
@@ -514,114 +485,24 @@ export default function QuizPage() {
               <p className="text-blue-700 font-semibold">Save $11 with this limited offer!</p>
             </div>
 
-            {/* Payment Instructions */}
-            {!showPaymentInstructions ? (
-              <Button
-                onClick={createStripeSession}
-                disabled={isCreatingSession}
-                size="lg"
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 text-xl font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 mb-6"
-              >
-                {isCreatingSession ? (
-                  <>
-                    <Loader2 className="mr-2 h-6 w-6 animate-spin" />
-                    Creating Payment Link...
-                  </>
-                ) : (
-                  <>
-                    <CreditCard className="mr-2 h-6 w-6" />
-                    Get Complete Guide - $32
-                  </>
-                )}
-              </Button>
-            ) : (
-              <div className="bg-blue-50 border-2 border-blue-200 rounded-lg p-6 mb-6">
-                <div className="flex items-center justify-center mb-4">
-                  <CreditCard className="h-8 w-8 text-blue-600 mr-3" />
-                  <h3 className="text-xl font-bold text-blue-800">Complete Your Secure Payment</h3>
-                </div>
-
-                {stripeUrl ? (
-                  <div className="space-y-4">
-                    <p className="text-blue-700 text-sm">
-                      Your secure payment link is ready! Copy the link below and open it in a new browser tab to
-                      complete your purchase:
-                    </p>
-
-                    <div className="bg-white border-2 border-blue-300 rounded-lg p-4">
-                      <div className="flex items-center justify-between">
-                        <div className="flex-1 mr-3">
-                          <p className="text-xs text-blue-600 font-semibold mb-1">🔒 Secure Stripe Payment Link:</p>
-                          <p className="text-sm font-mono text-gray-800 break-all bg-gray-50 p-2 rounded border">
-                            {stripeUrl}
-                          </p>
-                        </div>
-                        <Button
-                          onClick={() => copyToClipboard(stripeUrl)}
-                          size="sm"
-                          className="flex-shrink-0 bg-blue-600 hover:bg-blue-700 text-white"
-                        >
-                          {copied ? (
-                            <>
-                              <CheckCircle className="h-4 w-4 mr-1" />
-                              Copied!
-                            </>
-                          ) : (
-                            <>
-                              <Copy className="h-4 w-4 mr-1" />
-                              Copy Link
-                            </>
-                          )}
-                        </Button>
-                      </div>
-                    </div>
-
-                    <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-                      <h4 className="font-semibold text-green-800 mb-2">✅ Simple 3-Step Process:</h4>
-                      <ol className="text-sm text-green-700 space-y-1 list-decimal list-inside">
-                        <li>
-                          <strong>Copy</strong> the payment link above (click "Copy Link")
-                        </li>
-                        <li>
-                          <strong>Open a new browser tab</strong> and paste the link
-                        </li>
-                        <li>
-                          <strong>Complete your secure payment</strong> - you'll get instant access!
-                        </li>
-                      </ol>
-                      <p className="text-xs text-green-600 mt-2 font-medium">
-                        💳 Secure payment processed by Stripe • 🔒 Your data is protected • ⚡ Instant delivery
-                      </p>
-                    </div>
-
-                    <div className="text-center">
-                      <p className="text-sm text-blue-700 font-medium">
-                        After payment, you'll receive your complete guide within 2 minutes!
-                      </p>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="space-y-4">
-                    <div className="bg-orange-50 border border-orange-200 rounded-lg p-4">
-                      <p className="text-orange-700 font-medium mb-2">
-                        🚧 <strong>Preview Environment Detected</strong>
-                      </p>
-                      <p className="text-sm text-orange-600">
-                        This is a demo environment. In production, you would receive a secure Stripe payment link to
-                        complete your $32 purchase.
-                      </p>
-                    </div>
-                    <div className="bg-white border border-gray-300 rounded-lg p-4">
-                      <h4 className="font-semibold text-gray-800 mb-2">🔧 Technical Note:</h4>
-                      <p className="text-sm text-gray-700">
-                        The payment system is fully configured and ready. When deployed to production, users receive a
-                        secure Stripe checkout link for seamless payment processing.
-                      </p>
-                    </div>
-                  </div>
-                )}
-              </div>
-            )}
+            <Button
+              onClick={createStripeSession}
+              disabled={isCreatingSession}
+              size="lg"
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 text-xl font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 mb-6"
+            >
+              {isCreatingSession ? (
+                <>
+                  <Loader2 className="mr-2 h-6 w-6 animate-spin" />
+                  Creating Payment Link...
+                </>
+              ) : (
+                <>
+                  <CreditCard className="mr-2 h-6 w-6" />
+                  Get Complete Guide - $32
+                </>
+              )}
+            </Button>
 
             <div className="grid grid-cols-2 gap-4 text-sm text-gray-600 mb-4">
               <div className="flex items-center justify-center">
