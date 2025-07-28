@@ -35,7 +35,10 @@ async function initializeStripe() {
     if (isPlaceholder(stripeKey)) {
       stripeError = "Stripe secret key is placeholder value"
       console.log("⚠️ Stripe secret key is placeholder - payment processing unavailable")
-      return
+      // Do not return here in dev mode, allow the API to handle it
+      if (process.env.NODE_ENV !== "development") {
+        return
+      }
     }
 
     if (!stripeKey.startsWith("sk_")) {
@@ -72,15 +75,32 @@ export async function POST(request: NextRequest) {
     // Check if Stripe is available
     if (!stripe) {
       console.log("❌ Stripe still not available after re-initialization")
+      // Special handling for development environment with placeholder key
+      if (process.env.NODE_ENV === "development" && stripeError?.includes("placeholder")) {
+        return NextResponse.json(
+          {
+            error: "Stripe is in development mode. No real payment will be processed.",
+            success: false,
+            developmentMode: true,
+            message: "This is a development preview. A real checkout link will be generated in production.",
+            url: null, // Explicitly set url to null
+          },
+          {
+            status: 200, // Return 200 OK to be handled by the frontend
+            headers: {
+              "Content-Type": "application/json",
+            },
+          },
+        )
+      }
       return NextResponse.json(
         {
           error: "Payment processing is temporarily unavailable. Please try again in a moment.",
           success: false,
-          developmentMode: true,
-          message: "Stripe is not properly configured. Check server logs for details.",
+          details: stripeError,
         },
         {
-          status: 200,
+          status: 503,
           headers: {
             "Content-Type": "application/json",
           },
