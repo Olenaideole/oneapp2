@@ -10,7 +10,7 @@ export async function sendWelcomeEmail(email: string, customerName: string) {
     try {
         const { data, error } = await resend.emails.send({
             from: "One App <onboarding@resend.dev>",
-            to: [email],
+            to: [email || "test@example.com"],
             subject: "🎉 Welcome to One App Per Day - Your Guide is Ready!",
             html: `
                 <h1>Welcome, ${customerName}!</h1>
