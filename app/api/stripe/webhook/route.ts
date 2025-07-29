@@ -1,6 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server"
 import Stripe from "stripe"
 import { createClient } from "@supabase/supabase-js"
+import { sendWelcomeEmail } from "@/lib/resend"
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2024-12-18.acacia",
@@ -9,17 +10,6 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 const supabase = createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!)
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!
-
-async function sendWelcomeEmail(email: string, customerName: string) {
-  // For now, we'll log the welcome email
-  // You can integrate with Resend here later
-  console.log("=== WELCOME EMAIL ===")
-  console.log(`To: ${email}`)
-  console.log(`Name: ${customerName}`)
-  console.log("Subject: 🎉 Welcome to One App Per Day - Your Guide is Ready!")
-  console.log("Content: Welcome email with guide access link...")
-  console.log("=== END WELCOME EMAIL ===")
-}
 
 export async function POST(request: NextRequest) {
   try {
@@ -80,7 +70,13 @@ export async function POST(request: NextRequest) {
         }
 
         // Send welcome email with guide access
-        await sendWelcomeEmail(customerEmail, customerName)
+        try {
+          await sendWelcomeEmail(customerEmail, customerName)
+          console.log("Welcome email sent to:", customerEmail)
+        } catch (emailError) {
+          console.error("Failed to send welcome email:", emailError)
+          // Optionally, you could add this to a retry queue
+        }
 
         // Update quiz response if exists
         try {
