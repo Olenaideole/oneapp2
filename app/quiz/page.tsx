@@ -404,8 +404,12 @@ export default function QuizPage() {
       if (data.url) {
         console.log("✅ Stripe session created, redirecting:", data.url)
         window.location.href = data.url
+      } else if (data.developmentMode) {
+        // Handle development mode gracefully
+        console.warn("Stripe is in development mode. No redirect will occur.")
+        alert("This is a development preview. In a production environment, you would be redirected to Stripe to complete the payment.")
       } else {
-        // Fallback for development mode or if URL is missing
+        // Fallback for other errors
         throw new Error(data.message || "No checkout URL received from server.")
       }
     } catch (error) {
