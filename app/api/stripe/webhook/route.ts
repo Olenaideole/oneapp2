@@ -71,6 +71,7 @@ export async function POST(request: NextRequest) {
 
         // Send welcome email with guide access
         try {
+          console.log("Calling sendWelcomeEmail for", customerEmail)
           await sendWelcomeEmail(customerEmail, customerName)
           console.log("Welcome email sent to:", customerEmail)
         } catch (emailError) {
