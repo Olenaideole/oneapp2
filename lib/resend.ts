@@ -7,7 +7,7 @@ const guideUrl = "https://<your-netlify-site>.netlify.app/OneAppGuide.pdf";
 export async function sendWelcomeEmail(email: string, customerName: string) {
     try {
         const { data, error } = await resend.emails.send({
-            from: "Content <noreply@yourdomain.com>",
+            from: "One App <onboarding@resend.dev>",
             to: [email],
             subject: "🎉 Welcome to One App Per Day - Your Guide is Ready!",
             html: `
