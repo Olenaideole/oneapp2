@@ -47,6 +47,16 @@ export async function POST(request: NextRequest) {
           break
         }
 
+        // Send welcome email with guide access
+        try {
+          console.log("Calling sendWelcomeEmail for", customerEmail)
+          await sendWelcomeEmail(customerEmail, customerName)
+          console.log("Welcome email sent to:", customerEmail)
+        } catch (emailError) {
+          console.error("Failed to send welcome email:", emailError)
+          // Optionally, you could add this to a retry queue
+        }
+
         // Save purchase to database
         try {
           const { error: insertError } = await supabase.from("purchases").insert({
@@ -68,20 +78,6 @@ export async function POST(request: NextRequest) {
           }
         } catch (dbError) {
           console.error("Database error:", dbError)
-        }
-
-        if (!customerEmail) {
-          console.error("No email found when trying to send guide email");
-          return;
-        }
-        // Send welcome email with guide access
-        try {
-          console.log("Calling sendWelcomeEmail for", customerEmail)
-          await sendWelcomeEmail(customerEmail, customerName)
-          console.log("Welcome email sent to:", customerEmail)
-        } catch (emailError) {
-          console.error("Failed to send welcome email:", emailError)
-          // Optionally, you could add this to a retry queue
         }
 
         // Update quiz response if exists
