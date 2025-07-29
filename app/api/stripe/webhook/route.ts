@@ -48,13 +48,12 @@ export async function POST(request: NextRequest) {
         }
 
         // Send welcome email with guide access
+        console.log(`Attempting to send welcome email to ${customerEmail}`)
         try {
-          console.log("Calling sendWelcomeEmail for", customerEmail)
           await sendWelcomeEmail(customerEmail, customerName)
-          console.log("Welcome email sent to:", customerEmail)
+          console.log(`Welcome email successfully sent to ${customerEmail}`)
         } catch (emailError) {
-          console.error("Failed to send welcome email:", emailError)
-          // Optionally, you could add this to a retry queue
+          console.error(`Failed to send welcome email to ${customerEmail}:`, emailError)
         }
 
         // Save purchase to database
