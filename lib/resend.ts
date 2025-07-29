@@ -1,10 +1,12 @@
 import { Resend } from "resend";
 
+console.log("Using RESEND_API_KEY", process.env.RESEND_API_KEY?.slice(0, 5));
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 const guideUrl = "https://<your-netlify-site>.netlify.app/OneAppGuide.pdf";
 
 export async function sendWelcomeEmail(email: string, customerName: string) {
+    console.log("sendWelcomeEmail CALLED with:", { email, customerName });
     try {
         const { data, error } = await resend.emails.send({
             from: "One App <onboarding@resend.dev>",

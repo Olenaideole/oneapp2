@@ -69,6 +69,10 @@ export async function POST(request: NextRequest) {
           console.error("Database error:", dbError)
         }
 
+        if (!customerEmail) {
+          console.error("No email found when trying to send guide email");
+          return;
+        }
         // Send welcome email with guide access
         try {
           console.log("Calling sendWelcomeEmail for", customerEmail)
