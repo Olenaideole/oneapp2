@@ -78,6 +78,7 @@ export async function GET() {
           : "INVALID"
         : "MISSING",
       XAI_API_KEY: envVars.XAI_API_KEY ? "SET" : "MISSING",
+      STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET ? "SET" : "MISSING",
     },
     recommendations: [],
   }
