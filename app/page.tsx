@@ -70,14 +70,15 @@ export default function LandingPage() {
           single day using AI and no-code tools.
         </p>
 
-        <Button
-          size="lg"
-          className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 text-lg font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
-          onClick={() => scrollToSection("pricing")}
-        >
-          Get Instant Access — $43
-          <ArrowRight className="ml-2 h-5 w-5" />
-        </Button>
+        <Link href="/quiz">
+          <Button
+            size="lg"
+            className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 text-lg font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+          >
+            Get Instant Access — $43
+            <ArrowRight className="ml-2 h-5 w-5" />
+          </Button>
+        </Link>
 
         <p className="text-sm text-gray-500 mt-4">⚡ Instant access • 💰 One-time payment • 🎯 Lifetime access</p>
       </section>
@@ -339,13 +340,15 @@ export default function LandingPage() {
                 </Badge>
               </div>
 
-              <Button
-                size="lg"
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 text-xl font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
-              >
-                <Zap className="mr-2 h-6 w-6" />
-                Buy Now & Join the Club
-              </Button>
+              <Link href="/quiz">
+                <Button
+                  size="lg"
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 text-xl font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                >
+                  <Zap className="mr-2 h-6 w-6" />
+                  Buy Now & Join the Club
+                </Button>
+              </Link>
 
               <p className="text-sm text-gray-500 mt-4">
                 ✅ Instant access • ✅ 30-day money-back guarantee • ✅ Secure payment
