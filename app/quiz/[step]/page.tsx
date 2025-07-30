@@ -58,15 +58,39 @@ const quizBlocks: Block[] = [
     color: "bg-blue-500",
     questions: [
       {
+        id: "manual_work",
+        question: "Have you ever worked with your hands? (e.g. trucking, construction, farming, services)",
+        options: ["Yes, that's my background", "I've done it a bit", "No, not really"],
+        type: "single",
+      },
+      {
+        id: "side_hustles",
+        question: "Have you tried any side hustles before?",
+        options: ["Yep, got one now", "Tried some in the past", "Nope, but I'm ready to", "Not for me"],
+        type: "single",
+      },
+      {
+        id: "free_time",
+        question: "How much free time do you usually have during the day or week?",
+        options: ["Evenings and weekends", "During the day", "My schedule is flexible", "I have very little free time"],
+        type: "single",
+      },
+      {
+        id: "learning_preference",
+        question: "How do you usually prefer to learn something new?",
+        options: ["Watching videos", "Listening to audio (podcasts etc.)", "Just doing it hands-on", "Reading articles or books"],
+        type: "single",
+      },
+      {
         id: "profession",
         question: "What's your current profession?",
         options: ["Student", "Freelancer", "Entrepreneur", "Corporate employee", "Unemployed"],
         type: "single",
       },
       {
-        id: "hours",
-        question: "How many hours a week can you dedicate to learning or building with AI?",
-        options: ["Less than 3 hours", "3–7 hours", "8–15 hours", "Full time"],
+        id: "hours_investment",
+        question: "How many hours a week could you realistically invest to build an AI income stream?",
+        options: ["Just a few hours (1-5)", "A solid evening or two (5-10)", "Part-time effort (10-20)", "Whatever it takes (20+)"],
         type: "single",
       },
       {
@@ -100,6 +124,16 @@ const quizBlocks: Block[] = [
     icon: <Code className="h-6 w-6" />,
     color: "bg-green-500",
     questions: [
+      {
+        id: "ai_mindset",
+        question: "When you hear about AI, do you mostly think:",
+        options: [
+          "It’s for tech geeks",
+          "I’ve heard about it but haven’t tried it",
+          "I’ve used tools like ChatGPT and see the potential",
+        ],
+        type: "single",
+      },
       {
         id: "coding",
         question: "Can you write basic code (any language)?",
@@ -147,6 +181,18 @@ const quizBlocks: Block[] = [
     icon: <DollarSign className="h-6 w-6" />,
     color: "bg-purple-500",
     questions: [
+      {
+        id: "income_goal",
+        question: "What would feel like a successful monthly income from an AI side hustle?",
+        options: ["A nice bonus ($300+)", "A solid side-income ($1,000+)", "Life-changing ($5,000+)", "Whatever I can get"],
+        type: "single",
+      },
+      {
+        id: "extra_1k_spend",
+        question: "If you had an extra $1,000 per month, what would you spend it on?",
+        options: ["Pay off debt", "Invest it", "Upgrade my lifestyle (car, home, etc.)", "Save for a big purchase"],
+        type: "single",
+      },
       {
         id: "exciting",
         question: "What sounds most exciting to you?",
