@@ -37,17 +37,22 @@ export default function LandingPage() {
             <span className="text-xl font-bold text-gray-900">One App Per Day</span>
           </div>
 
-          {/* Quiz Button */}
-          <Button
-            variant="outline"
-            className="border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white transition-all duration-300 font-semibold px-6 bg-transparent"
-            asChild
-          >
-            <Link href="/quiz">
-              <Zap className="mr-2 h-4 w-4" />
-              The AI Money Test
-            </Link>
-          </Button>
+          <div className="flex items-center space-x-4">
+            <a href="mailto:support@oneappperday.com" className="text-sm text-gray-600 hover:text-gray-900">
+              support@oneappperday.com
+            </a>
+            {/* Quiz Button */}
+            <Button
+              variant="outline"
+              className="border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white transition-all duration-300 font-semibold px-6 bg-transparent"
+              asChild
+            >
+              <Link href="/quiz">
+                <Zap className="mr-2 h-4 w-4" />
+                The AI Money Test
+              </Link>
+            </Button>
+          </div>
         </div>
       </header>
       {/* Hero Section */}
