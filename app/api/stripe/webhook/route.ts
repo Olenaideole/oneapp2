@@ -1,7 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server"
 import Stripe from "stripe"
 import { createClient } from "@supabase/supabase-js"
-import { sendWelcomeEmail } from "@/lib/resend"
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2024-12-18.acacia",
@@ -47,14 +46,6 @@ export async function POST(request: NextRequest) {
           break
         }
 
-        // Send welcome email with guide access
-        console.log(`Attempting to send welcome email to ${customerEmail}`)
-        try {
-          await sendWelcomeEmail(customerEmail, customerName)
-          console.log(`Welcome email successfully sent to ${customerEmail}`)
-        } catch (emailError) {
-          console.error(`Failed to send welcome email to ${customerEmail}:`, emailError)
-        }
 
         // Save purchase to database
         try {

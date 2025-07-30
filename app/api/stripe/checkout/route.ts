@@ -166,7 +166,7 @@ export async function POST(request: NextRequest) {
         },
       ],
       mode: "payment",
-      success_url: `${request.nextUrl.origin}/success?session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `https://oneappnew.netlify.app/thank-you`,
       cancel_url: `${request.nextUrl.origin}/quiz`,
       customer_email: email,
       metadata: {
