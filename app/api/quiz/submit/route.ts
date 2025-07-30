@@ -441,7 +441,7 @@ async function sendEmailWithFallback(email: string, report: AIReport): Promise<{
       console.log("✅ Email HTML generated, length:", emailHTML.length)
 
       const emailPayload = {
-        from: "onboarding@resend.dev",
+        from: "welcome@1appday.com",
         to: [email],
         subject: `🧠 Your AI Money Test Results - $${report.monthlyIncome.toLocaleString()}/month potential!`,
         html: emailHTML,
@@ -621,7 +621,7 @@ Talk soon,
 Get the Complete Guide: https://oneappperday.com`
 
     const summaryPayload = {
-      from: "onboarding@resend.dev",
+      from: "welcome@1appday.com",
       to: [email],
       subject: "Your AI App Quiz Report is Ready 🚀",
       html: summaryEmailHTML,
