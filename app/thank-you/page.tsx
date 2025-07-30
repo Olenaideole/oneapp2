@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Download } from "lucide-react"
+import { Download, ArrowLeft } from "lucide-react"
 import Link from "next/link"
 
 export default function ThankYouPage() {
@@ -23,6 +23,12 @@ export default function ThankYouPage() {
               Download the One App Guide
             </a>
           </Button>
+          <div className="mt-8">
+            <Link href="/" className="text-gray-600 hover:text-gray-900 inline-flex items-center">
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              Back to Home
+            </Link>
+          </div>
         </CardContent>
       </Card>
     </div>
