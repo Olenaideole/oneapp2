@@ -17,7 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <script defer data-domain="1appday.com" src="https://plausible.io/js/script.js"></script>
+        <script defer src="https://cloud.umami.is/script.js" data-website-id="4e2c7c26-abd2-4f60-bcbe-ad7c6deb7803"></script>
         <style>{`
 html {
   font-family: ${GeistSans.style.fontFamily};
