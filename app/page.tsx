@@ -425,20 +425,6 @@ export default function LandingPage() {
             Empowering entrepreneurs to build and launch AI-powered websites without coding.
           </p>
 
-          <div className="flex flex-wrap justify-center gap-6 text-sm">
-            <Link href="/terms" className="text-gray-400 hover:text-white transition-colors">
-              Terms of Service
-            </Link>
-            <Link href="/privacy" className="text-gray-400 hover:text-white transition-colors">
-              Privacy Policy
-            </Link>
-            <Link href="/discord" className="text-gray-400 hover:text-white transition-colors">
-              Discord Community
-            </Link>
-            <Link href="/contact" className="text-gray-400 hover:text-white transition-colors">
-              Contact
-            </Link>
-          </div>
 
           <div className="mt-8 pt-8 border-t border-gray-800 text-gray-400 text-sm">
             © 2024 One App Per Day. All rights reserved.
